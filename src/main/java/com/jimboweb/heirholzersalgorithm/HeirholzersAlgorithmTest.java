@@ -42,8 +42,9 @@ public class HeirholzersAlgorithmTest {
         }
         TestInput inputter = new TestInput(input);
         TestOutput outputter = new TestOutput();
-        HeirholzersAlgorithm h = new HeirholzersAlgorithm();
+        HeirholzersAlgorithm h = new HeirholzersAlgorithm(inputter, outputter);
         long runTime = getLoopCount(inputter, outputter, h);
+
         System.out.println("Output: \n" + outputter.getOutputText());
         System.out.println("runtime: " + runTime);
     }
