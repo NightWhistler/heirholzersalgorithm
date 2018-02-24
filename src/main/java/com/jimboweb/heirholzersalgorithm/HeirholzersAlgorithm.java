@@ -1,15 +1,20 @@
 package com.jimboweb.heirholzersalgorithm;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Queue;
-
 
 public class HeirholzersAlgorithm {
 
     private Inputter inputter;
     private Outputter outputter;
+
+    private static final Logger logger = LoggerFactory.getLogger(HeirholzersAlgorithm.class);
 
     public HeirholzersAlgorithm(Inputter inputter, Outputter outputter) {
         this.inputter = inputter;
@@ -18,29 +23,50 @@ public class HeirholzersAlgorithm {
 
     public static void main(String[] args) {
         Inputter inputter = new ConsoleInput();
-        Outputter outputter = new ConsoleOutput();
+        AccumulatingOutputter outputter = new AccumulatingOutputter();
 
         new HeirholzersAlgorithm(inputter, outputter).run();
+
+        //Print output at the end so it doesn't get stuck in the middle of log output
+        outputter.printOutput(System.out);
     }
 
     public void run() {
-        ArrayList<ArrayList<Integer>> input = inputter.getInput();
+        List<List<Integer>> input = inputter.getInput();
+
+        if ( input.size() < 1 || input.get(0).size() != 2 ) {
+            throw new IllegalArgumentException("First row malformed");
+        }
+
+        int nodeCount = input.get(0).get(0);
+        int edgeCount = input.get(0).get(1);
+
+        if ( edgeCount != input.size() -1 ) {
+            throw new IllegalArgumentException("Actual edge count does not match stated edge count");
+        }
+
+        logger.debug("Got a graph with {} nodes and {} edges", nodeCount, edgeCount);
 
         Graph graph = Graph.buildFromInputs(input);
 
         if(graph.isGraphEven(graph.size())){
+            logger.debug("Graph is even");
 
             Path path = findPath(graph, new Path(graph.size()));
 
-            String output = "1\n";
+            outputter.output( "1" );
             Queue<Integer> pathQueue = path.getQueue();
+            logger.debug("Found a path of {} elements.", pathQueue.size() );
+
+            StringBuffer buffer = new StringBuffer();
 
             while(pathQueue.size()>1){
                 int outputNode = pathQueue.poll() + 1;
-                output += outputNode + " ";
+                buffer.append( outputNode + " " );
             }
-            outputter.output(output);
+            outputter.output(buffer.toString());
         } else {
+            logger.debug("Graph was uneven, outputting 0");
             outputter.output("0");
         }
     }
@@ -52,13 +78,16 @@ public class HeirholzersAlgorithm {
      * @return the path of Integer vertices
      */
     public static Path findPath(Graph graph, Path path){
+
         Integer currentVertex = findFirstVertex(graph, path);
+        logger.debug("First vertex was {}", currentVertex);
 
         if(currentVertex==null){
             return path;
         }
 
         Path newPath = makeNewPath(graph, currentVertex);
+        logger.debug("Created new path of size {}", newPath.size() );
 
         if(path.isEmpty()){
             return findPath(graph, newPath);
@@ -133,6 +162,8 @@ public class HeirholzersAlgorithm {
      * @return the new path from a vertex of the old one
      */
     private static Path makeNewPath(Graph graph, Integer currentVertex){
+
+        logger.debug("Making a new path for a graph with size {} and currentVertex {}", graph.size(), currentVertex );
         // TODO: 2/16/18
         Path newPath = new Path(graph.size());
 
@@ -165,6 +196,8 @@ public class HeirholzersAlgorithm {
      * @return the previous path joined to new path
      */
     private static Path addNewPath(Path path, Path newPath) {
+        logger.debug("Adding path '{}' to path '{}'", path, newPath);
+
         Path adjustedPath = new Path(path.getGraphSize());
 
         boolean newPathNotAdded = true;
@@ -180,6 +213,7 @@ public class HeirholzersAlgorithm {
             }
         }
 
+        logger.debug("Returning adjustedPath {}", adjustedPath);
         return adjustedPath;
     }
 

@@ -13,7 +13,6 @@ import javax.swing.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 import static org.junit.Assert.*;
 
 // TODO: 2/14/18 make sure test works. then make a timer and see how time increases as problem size increases.
@@ -57,7 +56,7 @@ public class HeirholzersAlgorithmTest {
             String input = createInput(g);
             TestInput inputter = new TestInput(input);
             TestOutput outputter = new TestOutput();
-            HeirholzersAlgorithm h = new HeirholzersAlgorithm();
+            HeirholzersAlgorithm h = new HeirholzersAlgorithm(inputter, outputter);
             int overtimeCount = 0;
             int loopCount = 0;
             for(int i=0;i<2;i++) {
@@ -96,9 +95,11 @@ public class HeirholzersAlgorithmTest {
 
     private int getLoopCount(TestInput inputter, TestOutput outputter, HeirholzersAlgorithm h) {
         //long startTime = System.nanoTime();
-        h.hierholzersAlgorithm(inputter, outputter);
+        h.run();
         //return System.nanoTime() - startTime;
-        return h.getOperations();
+        //
+        // return h.getOperations();
+        return -1;
     }
 
     /*@Test*/
@@ -109,7 +110,7 @@ public class HeirholzersAlgorithmTest {
             String input = createInput(g);
             TestInput inputter = new TestInput(input);
             TestOutput outputter = new TestOutput();
-            HeirholzersAlgorithm h = new HeirholzersAlgorithm();
+            HeirholzersAlgorithm h = new HeirholzersAlgorithm(inputter, outputter);
             long runTime = getLoopCount(inputter, outputter, h);
             long ratio = runTime/g.edges.size();
             if (runTime>200000){
@@ -166,9 +167,9 @@ public class HeirholzersAlgorithmTest {
             this.input = input;
         }
         @Override
-        public ArrayList<ArrayList<Integer>> getInput() {
+        public List<List<Integer>> getInput() {
             //System.out.println(("input:\n" + input));
-            ArrayList<ArrayList<Integer>> rtrn = new ArrayList<>();
+            List<List<Integer>> rtrn = new ArrayList<>();
             for(String inputLine:input.split("\n")){
 
                 ArrayList<Integer> nextLine =

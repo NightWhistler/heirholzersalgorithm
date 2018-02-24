@@ -64,5 +64,14 @@ class Path {
         return doesContain.length;
     }
 
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        for ( Integer item: queue ) {
+            buffer.append(item);
+            buffer.append(" ");
+        }
+        return buffer.toString();
+    }
 }
 

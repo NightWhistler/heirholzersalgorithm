@@ -2,6 +2,7 @@ package com.jimboweb.heirholzersalgorithm;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class Graph  {
 
@@ -61,7 +62,7 @@ public class Graph  {
      * @param inputs ArrayList of Integers from input
      * @return
      */
-    public static Graph buildFromInputs(ArrayList<ArrayList<Integer>> inputs) {
+    public static Graph buildFromInputs(List<List<Integer>> inputs) {
 
         int n = inputs.get(0).get(0);
 

@@ -1,7 +1,7 @@
 package com.jimboweb.heirholzersalgorithm;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface Inputter {
-    ArrayList<ArrayList<Integer>> getInput();
+    List<List<Integer>> getInput();
 }
