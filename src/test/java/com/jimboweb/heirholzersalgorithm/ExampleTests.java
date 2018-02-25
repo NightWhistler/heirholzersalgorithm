@@ -15,6 +15,10 @@ public class ExampleTests extends TestCase {
            input.add( Arrays.asList(items) );
        }
 
+       return testForInput(input);
+    }
+
+    private static List<String> testForInput( List<List<Integer>> input ) {
        Inputter inputter = new DummyInputter(input);
         AccumulatingOutputter outputter = new AccumulatingOutputter();
        HeirholzersAlgorithm algorithm = new HeirholzersAlgorithm(inputter, outputter);
@@ -41,6 +45,91 @@ public class ExampleTests extends TestCase {
 
     }
 
+    public void testSquare() {
+
+        Integer [][] inputInts = {
+            {4,8},
+            {1,2},
+            {2,3},
+            {3,4},
+            {4,1},
+            {1,1},
+            {2,2},
+            {3,3},
+            {4,4},
+        };
+
+        List<String> result = testForInput(inputInts);
+
+       assertEquals( 2, result.size() );
+       assertEquals( "1", result.get(0) );
+       assertEquals( "1 1 2 2 3 3 4 4 ", result.get(1) );
+    }
+
+     public void testSquareCross() {
+
+        Integer [][] inputInts = {
+            {4,10},
+            {1,2},
+            {2,3},
+            {3,4},
+            {4,1},
+            {1,1},
+            {2,2},
+            {3,3},
+            {4,4},
+            {1,3},
+            {2,4},
+        };
+
+        List<String> result = testForInput(inputInts);
+
+       assertEquals( 1, result.size() );
+       assertEquals( "0", result.get(0) );
+    }
+
+    public void testG4GExample() {
+        //https://www.geeksforgeeks.org/hierholzers-algorithm-directed-graph/
+        Integer [][] inputs = {
+                {7, 10},
+                {1, 2},
+                {2, 3},
+                {3, 4},
+                {4, 5},
+                {5, 6},
+                {6, 1},
+                {1, 7},
+                {7, 5},
+                {5, 3},
+                {3, 1}
+        };
+
+        List<String> result = testForInput(inputs);
+
+       assertEquals( 2, result.size() );
+       assertEquals( "1", result.get(0) );
+       assertEquals( "1 7 5 3 1 2 3 4 5 6 ", result.get(1) );
+    }
+
+    public void testG4GExample2() {
+        //https://www.geeksforgeeks.org/hierholzers-algorithm-directed-graph/
+        Integer [][] inputs = {
+                {5, 6},
+                {1, 2},
+                {2, 3},
+                {3, 1},
+                {2, 4},
+                {4, 5},
+                {5, 2}
+        };
+
+        List<String> result = testForInput(inputs);
+
+       assertEquals( 2, result.size() );
+       assertEquals( "1", result.get(0) );
+       assertEquals( "1 2 4 5 2 3 ", result.get(1) );
+    }
+
     public void testOdd() {
 
         Integer [][] inputInts = {
@@ -61,7 +150,7 @@ public class ExampleTests extends TestCase {
 
     public void testTiny() {
          Integer [][] inputInts = {
-            {3,1},
+            {3,2},
             {1,2},
             {2,1}
         };
@@ -73,123 +162,45 @@ public class ExampleTests extends TestCase {
 
     }
 
-    public void testBig() {
-         Integer [][] inputInts = {
-            {10,100},
-
-            {1,1},
+    public void testSemiEulerian() {
+          Integer [][] inputInts = {
+            {5,5},
             {1,2},
             {1,3},
-            {1,3},
-            {1,5},
-            {1,6},
-            {1,7},
-            {1,8},
-            {1,9},
-            {1,10},
-
-            {2,1},
-            {2,2},
             {2,3},
-            {2,4},
-            {2,5},
-            {2,6},
-            {2,7},
-            {2,8},
-            {2,9},
-            {2,10},
-
-            {3,1},
-            {3,2},
-            {3,3},
-            {3,4},
-            {3,5},
-            {3,6},
-            {3,7},
-            {3,8},
-            {3,9},
-            {3,10},
-
-            {4,1},
-            {4,2},
-            {4,3},
-            {4,4},
-            {4,5},
-            {4,6},
-            {4,7},
-            {4,8},
-            {4,9},
-            {4,10},
-
-            {5,1},
-            {5,2},
-            {5,3},
-            {5,4},
-            {5,5},
-            {5,6},
-            {5,7},
-            {5,8},
-            {5,9},
-            {5,10},
-
-            {6,1},
-            {6,2},
-            {6,3},
-            {6,4},
-            {6,5},
-            {6,6},
-            {6,7},
-            {6,8},
-            {6,9},
-            {6,10},
-
-            {7,1},
-            {7,2},
-            {7,3},
-            {7,4},
-            {7,5},
-            {7,6},
-            {7,7},
-            {7,8},
-            {7,9},
-            {7,10},
-
-            {8,1},
-            {8,2},
-            {8,3},
-            {8,4},
-            {8,5},
-            {8,6},
-            {8,7},
-            {8,8},
-            {8,9},
-            {8,10},
-
-            {9,1},
-            {9,2},
-            {9,3},
-            {9,4},
-            {9,5},
-            {9,6},
-            {9,7},
-            {9,8},
-            {9,9},
-            {9,10},
-
-            {10,1},
-            {10,2},
-            {10,3},
-            {10,4},
-            {10,5},
-            {10,6},
-            {10,7},
-            {10,8},
-            {10,9},
-            {10,10}
+            {1,4},
+            {4,5}
         };
 
-         testForInput(inputInts);
+        List<String> result = testForInput(inputInts);
 
+    }
+
+    public void testBig() {
+
+        Outputter nullOutputter = new Outputter() {
+            @Override
+            public void output(String output) {
+                //Send it to /dev/null
+            }
+        };
+
+        List<List<Integer>> input = createFullyConnectedGraphOfSize(1000);
+        Inputter inputter = new DummyInputter(input);
+        HeirholzersAlgorithm algorithm = new HeirholzersAlgorithm(inputter, nullOutputter);
+        algorithm.run();
+    }
+
+    private List<List<Integer>> createFullyConnectedGraphOfSize(int size) {
+        List<List<Integer>> result = new ArrayList<>(size + 1);
+        result.add( Arrays.asList( size + 1, size * size ) );
+        for ( int n = 1; n <= size; n ++ ) {
+            for ( int i = 1; i <= size; i++ ) {
+                result.add( Arrays.asList( n, i ) );
+            }
+        }
+
+        return result;
     }
 
 }

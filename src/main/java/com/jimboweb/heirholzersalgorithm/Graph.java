@@ -7,6 +7,7 @@ import java.util.List;
 public class Graph  {
 
     private ArrayList<Node> nodes;
+    private int edgeCount;
 
     public Graph(int size){
         nodes = new ArrayList<>(size);
@@ -18,10 +19,12 @@ public class Graph  {
 
     public void addSelfLoop(int n){
         getNode(n).addSelfLoop();
+        edgeCount++;
     }
 
     public void removeSelfLoop(int n){
         getNode(n).removeSelfLoop();
+        edgeCount--;
     }
 
     public void addNode(Node n){
@@ -55,6 +58,11 @@ public class Graph  {
     public void addEdge(int from, int to){
         getNode(from).addAdjacentVertex(to);
         getNode(to).addIncomingVertex(from);
+        edgeCount++;
+    }
+
+    public int getEdgeCount() {
+        return edgeCount;
     }
 
     /**

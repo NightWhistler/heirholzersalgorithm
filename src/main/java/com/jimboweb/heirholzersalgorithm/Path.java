@@ -1,23 +1,17 @@
 package com.jimboweb.heirholzersalgorithm;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * ArrayList of vertex numbers, will be final return of findPath method
  */
 class Path {
 
-    private Queue<Integer> queue;
-    private boolean[] doesContain;
+    private List<Integer> queue;
 
-    public Path(int size) {
-        doesContain = new boolean[size];
-        queue = new LinkedList<>();
+    public Path(int pathSize) {
+        queue = new ArrayList<>(pathSize);
     }
-
 
     public int size(){
         return queue.size();
@@ -27,25 +21,17 @@ class Path {
         return queue.isEmpty();
     }
 
-    public Queue<Integer> getQueue() {
+    public List<Integer> getQueue() {
         return queue;
     }
 
 
     public boolean add(int val){
-        boolean rtrn = queue.add(val);
-        if(val > doesContain.length){
-            throw new IndexOutOfBoundsException("contains array is not big enough for " + val);
-        }
-        if(rtrn){
-            doesContain[val] = true;
-        }
-        return rtrn;
+        return queue.add(val);
     }
 
-
     public boolean doesContain(int val){
-        return doesContain[val];
+        return queue.contains(val);
     }
 
     /**
@@ -56,12 +42,8 @@ class Path {
         if(queue.isEmpty()){
             return null;
         } else {
-            return queue.poll();
+            return queue.get(0);
         }
-    }
-
-    public int getGraphSize(){
-        return doesContain.length;
     }
 
     @Override

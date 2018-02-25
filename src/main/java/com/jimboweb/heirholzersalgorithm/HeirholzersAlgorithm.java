@@ -52,16 +52,16 @@ public class HeirholzersAlgorithm {
         if(graph.isGraphEven(graph.size())){
             logger.debug("Graph is even");
 
-            Path path = findPath(graph, new Path(graph.size()));
+            Path path = findPath(graph, new Path(0));
 
             outputter.output( "1" );
-            Queue<Integer> pathQueue = path.getQueue();
+            List<Integer> pathQueue = path.getQueue();
             logger.debug("Found a path of {} elements.", pathQueue.size() );
 
             StringBuffer buffer = new StringBuffer();
 
             while(pathQueue.size()>1){
-                int outputNode = pathQueue.poll() + 1;
+                int outputNode = pathQueue.get(0) + 1;
                 buffer.append( outputNode + " " );
             }
             outputter.output(buffer.toString());
@@ -90,11 +90,14 @@ public class HeirholzersAlgorithm {
         logger.debug("Created new path of size {}", newPath.size() );
 
         if(path.isEmpty()){
+            logger.debug("Path was empty, recursing with newPath");
             return findPath(graph, newPath);
         } else if(newPath.size()>1){
+            logger.debug("Path size was {}, appending paths");
             Path withNewPath = addNewPath(path, newPath);
             return findPath(graph, withNewPath);
         } else {
+            logger.debug("Path size was {}, going into straight recursive loop.");
             return findPath(graph, path);
         }
     }
@@ -110,8 +113,10 @@ public class HeirholzersAlgorithm {
         ArrayList<Integer> oddVertices = graph.oddVertices(graph.size());
 
         if (oddVertices.size()==2){
+            logger.debug("Graph is semi-eulerian");
             return firstVertexIfSemiEulerian(path, oddVertices);
         } else {
+            logger.debug("Graph is eulerian");
             return firstVertexIfEulerian(graph,path);
         }
     }
@@ -163,9 +168,9 @@ public class HeirholzersAlgorithm {
      */
     private static Path makeNewPath(Graph graph, Integer currentVertex){
 
-        logger.debug("Making a new path for a graph with size {} and currentVertex {}", graph.size(), currentVertex );
+        logger.debug("Making a new path for a graph with edge-count {} and currentVertex {}", graph.getEdgeCount(), currentVertex );
         // TODO: 2/16/18
-        Path newPath = new Path(graph.size());
+        Path newPath = new Path(graph.getEdgeCount());
 
         while(currentVertex!=null){
             Integer currentVertexNum = currentVertex;
@@ -198,7 +203,7 @@ public class HeirholzersAlgorithm {
     private static Path addNewPath(Path path, Path newPath) {
         logger.debug("Adding path '{}' to path '{}'", path, newPath);
 
-        Path adjustedPath = new Path(path.getGraphSize());
+        Path adjustedPath = new Path(path.size() + newPath.size());
 
         boolean newPathNotAdded = true;
         Integer start = newPath.getStart();
