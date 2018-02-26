@@ -1,6 +1,7 @@
 package com.jimboweb.heirholzersalgorithm;
 
 import junit.framework.TestCase;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -9,16 +10,16 @@ import java.util.List;
 
 public class ExampleTests extends TestCase {
 
-    private static List<String> testForInput( Integer[][] inputInts ) {
+    private static List<String> runTestForInput(Integer[][] inputInts ) {
        List<List<Integer>> input = new ArrayList<>();
        for ( Integer[] items: inputInts ) {
            input.add( Arrays.asList(items) );
        }
 
-       return testForInput(input);
+       return runTestForInput(input);
     }
 
-    private static List<String> testForInput( List<List<Integer>> input ) {
+    private static List<String> runTestForInput(List<List<Integer>> input ) {
        Inputter inputter = new DummyInputter(input);
         AccumulatingOutputter outputter = new AccumulatingOutputter();
        HeirholzersAlgorithm algorithm = new HeirholzersAlgorithm(inputter, outputter);
@@ -27,6 +28,7 @@ public class ExampleTests extends TestCase {
        return outputter.getItems();
     }
 
+    @Test
     public void testExampleFromJimsEmail() {
 
         Integer [][] inputInts = {
@@ -37,7 +39,7 @@ public class ExampleTests extends TestCase {
             {3,1}
         };
 
-        List<String> result = testForInput(inputInts);
+        List<String> result = runTestForInput(inputInts);
 
        assertEquals( 2, result.size() );
        assertEquals( "1", result.get(0) );
@@ -45,6 +47,7 @@ public class ExampleTests extends TestCase {
 
     }
 
+    @Test
     public void testSquare() {
 
         Integer [][] inputInts = {
@@ -59,13 +62,14 @@ public class ExampleTests extends TestCase {
             {4,4},
         };
 
-        List<String> result = testForInput(inputInts);
+        List<String> result = runTestForInput(inputInts);
 
        assertEquals( 2, result.size() );
        assertEquals( "1", result.get(0) );
        assertEquals( "1 1 2 2 3 3 4 4 ", result.get(1) );
     }
 
+    @Test
      public void testSquareCross() {
 
         Integer [][] inputInts = {
@@ -82,12 +86,13 @@ public class ExampleTests extends TestCase {
             {2,4},
         };
 
-        List<String> result = testForInput(inputInts);
+        List<String> result = runTestForInput(inputInts);
 
        assertEquals( 1, result.size() );
        assertEquals( "0", result.get(0) );
     }
 
+    @Test
     public void testG4GExample() {
         //https://www.geeksforgeeks.org/hierholzers-algorithm-directed-graph/
         Integer [][] inputs = {
@@ -104,13 +109,14 @@ public class ExampleTests extends TestCase {
                 {3, 1}
         };
 
-        List<String> result = testForInput(inputs);
+        List<String> result = runTestForInput(inputs);
 
        assertEquals( 2, result.size() );
        assertEquals( "1", result.get(0) );
        assertEquals( "1 7 5 3 1 2 3 4 5 6 ", result.get(1) );
     }
 
+    @Test
     public void testG4GExample2() {
         //https://www.geeksforgeeks.org/hierholzers-algorithm-directed-graph/
         Integer [][] inputs = {
@@ -123,13 +129,14 @@ public class ExampleTests extends TestCase {
                 {5, 2}
         };
 
-        List<String> result = testForInput(inputs);
+        List<String> result = runTestForInput(inputs);
 
        assertEquals( 2, result.size() );
        assertEquals( "1", result.get(0) );
        assertEquals( "1 2 4 5 2 3 ", result.get(1) );
     }
 
+    @Test
     public void testOdd() {
 
         Integer [][] inputInts = {
@@ -141,13 +148,14 @@ public class ExampleTests extends TestCase {
             {3,4}
         };
 
-        List<String> result = testForInput(inputInts);
+        List<String> result = runTestForInput(inputInts);
 
        assertEquals( 1, result.size() );
        assertEquals( "0", result.get(0) );
 
     }
 
+    @Test
     public void testTiny() {
          Integer [][] inputInts = {
             {3,2},
@@ -155,13 +163,14 @@ public class ExampleTests extends TestCase {
             {2,1}
         };
 
-        List<String> result = testForInput(inputInts);
+        List<String> result = runTestForInput(inputInts);
 
        assertEquals( 2, result.size() );
        assertEquals( "1 2 ", result.get(1) );
 
     }
 
+    @Test
     public void testSemiEulerian() {
           Integer [][] inputInts = {
             {5,5},
@@ -172,10 +181,12 @@ public class ExampleTests extends TestCase {
             {4,5}
         };
 
-        List<String> result = testForInput(inputInts);
+        List<String> result = runTestForInput(inputInts);
 
     }
 
+    @Test
+    @Ignore
     public void testBig() {
 
         Outputter nullOutputter = new Outputter() {

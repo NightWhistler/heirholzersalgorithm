@@ -61,7 +61,7 @@ public class HeirholzersAlgorithm {
             StringBuffer buffer = new StringBuffer();
 
             while(pathQueue.size()>1){
-                int outputNode = pathQueue.get(0) + 1;
+                int outputNode = pathQueue.remove(0) + 1;
                 buffer.append( outputNode + " " );
             }
             outputter.output(buffer.toString());
